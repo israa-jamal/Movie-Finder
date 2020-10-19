@@ -73,9 +73,7 @@ class MovieListViewController: UITableViewController, MovieListDisplayLogic
   }
   
   // MARK: Do something
-  
-  //@IBOutlet weak var nameTextField: UITextField!
-  
+    
   func doSomething()
   {
     let request = MovieList.Something.Request()
@@ -86,4 +84,20 @@ class MovieListViewController: UITableViewController, MovieListDisplayLogic
   {
     //nameTextField.text = viewModel.name
   }
+}
+
+//MARK:- UITableView
+
+extension MovieListViewController{
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+      return 10
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+//      let displayedOrder = displayedOrders[indexPath.row]
+      let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell")
+      return cell!
+    }
 }

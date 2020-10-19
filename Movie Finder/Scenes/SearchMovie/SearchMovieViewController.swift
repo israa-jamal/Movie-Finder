@@ -65,6 +65,16 @@ class SearchMovieViewController: UIViewController, SearchMovieDisplayLogic
     }
     
     // MARK: View lifecycle
+    override func viewWillAppear(_ animated: Bool) {
+         super.viewWillAppear(animated)
+         navigationController?.isNavigationBarHidden = true
+     }
+     
+     //display the navigation bar before going to the next views
+     override func viewWillDisappear(_ animated: Bool) {
+         super.viewWillDisappear(animated)
+         navigationController?.isNavigationBarHidden = false
+     }
     
     override func viewDidLoad()
     {
@@ -78,15 +88,15 @@ class SearchMovieViewController: UIViewController, SearchMovieDisplayLogic
     //Outlets
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var searchFieldView: UIView!
-    
-    //UI Methods
-    @IBAction func searchPressed(_ sender: UITextField) {
+    @IBAction func searchButton(_ sender: UIButton) {
+        router?.routeToListView(segue: nil)
     }
     
     private func configureUI(){
         searchFieldView.layer.cornerRadius = 20
         searchTextField.attributedPlaceholder = NSAttributedString(string: "Search a movie..", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white ])
-        
+        self.searchTextField.delegate = self
+//        router.routeToMovieList(segue: nil)
     }
     
     func doSomething()
@@ -99,4 +109,26 @@ class SearchMovieViewController: UIViewController, SearchMovieDisplayLogic
     {
         //nameTextField.text = viewModel.name
     }
+}
+
+//MARK:- TextField
+
+extension SearchMovieViewController : UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        router?.routeToListView(segue: nil)
+        return true
+    }
+       func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+           if textField.text != ""
+           {
+               return true
+           }else
+           {
+               textField.placeholder = "Search a movie.."
+               return false
+           }
+           
+       }
+    
 }
