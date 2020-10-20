@@ -17,8 +17,7 @@ protocol SearchMovieDisplayLogic: class
     func displaySomething(viewModel: SearchMovie.Something.ViewModel)
 }
 
-class SearchMovieViewController: UIViewController, SearchMovieDisplayLogic
-{
+class SearchMovieViewController: UIViewController, SearchMovieDisplayLogic{
     var interactor: SearchMovieBusinessLogic?
     var router: (NSObjectProtocol & SearchMovieRoutingLogic & SearchMovieDataPassing)?
     
@@ -91,12 +90,15 @@ class SearchMovieViewController: UIViewController, SearchMovieDisplayLogic
     @IBAction func searchButton(_ sender: UIButton) {
         router?.routeToListView(segue: nil)
     }
+    var movieBrain = MovieBrain()
+
     
     private func configureUI(){
+         
         searchFieldView.layer.cornerRadius = 20
         searchTextField.attributedPlaceholder = NSAttributedString(string: "Search a movie..", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white ])
         self.searchTextField.delegate = self
-//        router.routeToMovieList(segue: nil)
+//        self.movieBrain.delegate = self
     }
     
     func doSomething()
@@ -130,5 +132,12 @@ extension SearchMovieViewController : UITextFieldDelegate {
            }
            
        }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let movie = textField.text {
+            movieBrain.fetchMovie(movie)
+        }
+        searchTextField.text = ""
+    }
     
 }
+
