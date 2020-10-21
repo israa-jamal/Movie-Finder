@@ -34,7 +34,7 @@
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
                                         </state>
                                         <connections>
-                                            <action selector="searchButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wFk-Kl-yVF"/>
+                                            <action selector="searchButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Hcu-U3-Skw"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -69,9 +69,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="Ynl-8r-nHX"/>
                     <connections>
-                        <outlet property="searchFieldView" destination="7eU-LX-ze2" id="GCi-sa-aFe"/>
-                        <outlet property="searchTextField" destination="vdV-c3-Hre" id="DEo-PA-HhD"/>
-                        <segue destination="uIs-BX-PhJ" kind="show" identifier="ShowMovieListScene" id="UFe-e9-GdL"/>
+                        <outlet property="searchFieldView" destination="7eU-LX-ze2" id="ELa-ek-zNy"/>
+                        <outlet property="searchTextField" destination="vdV-c3-Hre" id="phP-RC-guP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -168,7 +167,7 @@
             <objects>
                 <viewController storyboardIdentifier="MovieDetailsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="u4F-Cn-YjR" customClass="MovieDetailsViewController" customModule="Movie_Finder" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="E8t-Jx-uga">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="a9c-mG-Q12">
