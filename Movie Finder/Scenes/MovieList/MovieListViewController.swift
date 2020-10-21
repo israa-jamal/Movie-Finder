@@ -11,19 +11,24 @@
 import UIKit
 
 protocol MovieListViewControllerInput {
-    
+    func presentData(movies: [Movie])
 }
 
 protocol MovieListViewControllerOutput {
-    var requestedMovie: String? {set get}
-    
+    var results : [Movie]? {set get}
+
 }
 
 class MovieListViewController: UITableViewController, MovieListViewControllerInput {
+    func presentData(movies: [Movie]) {
+        self.movieResults = movies
+    }
+    
     
     var output: MovieListViewControllerOutput?
     var router: MovieListRouter?
     var requestedMovie = ""
+    var movieResults : [Movie] = []
     // MARK: Object lifecycle
     
     override func awakeFromNib() {
@@ -57,13 +62,14 @@ extension MovieListViewController: MovieListPresenterOutput {
 extension MovieListViewController{
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return 0
+        return movieResults.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
-
+        let movie = movieResults[indexPath.row]
+        cell.setCellWithValues(movie: movie)
         return cell
     }
 }

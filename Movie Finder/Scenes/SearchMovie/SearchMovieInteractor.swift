@@ -13,7 +13,7 @@ protocol SearchMovieInteractorInput {
 }
 
 protocol SearchMovieInteractorOutput {
-    
+    func passDataToModeling(movies: [Movie])
 }
 
 protocol SearchMovieDataSource {
@@ -27,8 +27,20 @@ protocol SearchMovieDataDestination {
 class SearchMovieInteractor: SearchMovieInteractorInput, SearchMovieDataSource, SearchMovieDataDestination {
     var searchedMovie: String?
     var output: SearchMovieInteractorOutput?
-
-    // MARK: Business logic
+    var worker = SearchMovieWorker()
+    var results : [Movie]?
     
-
+    // MARK: Do something
+    func fetchMoviesData(completion: @escaping () ->()){
+        worker.getMovie(movie: searchedMovie!) { [weak self] (result) in
+            switch result{
+            case .success(let listOf):
+                self?.results = listOf.movies
+                self?.output?.passDataToModeling(movies: (self?.results)!)
+                completion()
+            case.failure(let error):
+                print("error processing data\(error)")
+            }
+        }
+    }
 }

@@ -9,11 +9,12 @@
 //  https://github.com/HelmMobile/clean-swift-templates
 import UIKit
 protocol MovieListInteractorInput {
-    var requestedMovie: String? {set get}
+    var results : [Movie]? {set get}
 
 }
 
 protocol MovieListInteractorOutput {
+    func passDataToModeling(movies: [Movie])
 
 }
 
@@ -26,35 +27,7 @@ protocol MovieListDataDestination {
 }
 
 class MovieListInteractor: MovieListInteractorInput, MovieListDataSource, MovieListDataDestination {
+    var results: [Movie]?
     
     var output: MovieListInteractorOutput?
-    var worker = MovieListWorker()
-    private var searchedMovies = [Movie]()
-    var requestedMovie: String?
-
-    
-    // MARK: Do something
-    func fetchMoviesData(completion: @escaping () ->()){
-        worker.getMovie(movie: requestedMovie!) { [weak self] (result) in
-            switch result{
-            case .success(let listOf):
-                self?.searchedMovies = listOf.movies
-                completion()
-            case.failure(let error):
-                print("error processing data\(error)")
-                
-            }
-        }
-    }
-    func numberOfRowInSection(section: Int) -> Int{
-        if searchedMovies.count != 0{
-            return searchedMovies.count
-        }
-        return 0
-    }
-    func cellForRowAt(indexPath: IndexPath) -> Movie{
-        return searchedMovies[indexPath.row]
-    }
-    
-
 }

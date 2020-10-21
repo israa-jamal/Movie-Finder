@@ -11,11 +11,13 @@
 import UIKit
 
 protocol SearchMovieViewControllerInput {
-    
+    func presentData(movies: [Movie])
 }
 
 protocol SearchMovieViewControllerOutput {
     var searchedMovie: String? {set get}
+    var results : [Movie]? {set get}
+
 }
 
 class SearchMovieViewController: UIViewController, SearchMovieViewControllerInput {
@@ -25,6 +27,7 @@ class SearchMovieViewController: UIViewController, SearchMovieViewControllerInpu
 
     var output: SearchMovieViewControllerOutput?
     var router: SearchMovieRouter?
+    var results : [Movie]?
     
     // MARK: Object lifecycle
     
@@ -48,15 +51,18 @@ class SearchMovieViewController: UIViewController, SearchMovieViewControllerInpu
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-       
     }
+   
     private func configureUI(){
         searchFieldView.layer.cornerRadius = 20
         searchTextField.attributedPlaceholder = NSAttributedString(string: "Search a movie..", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white ])
         self.searchTextField.delegate = self
     }
     
-    
+    func presentData(movies: [Movie]){
+            self.results = movies
+    }
+
     // MARK: Requests
     
     
@@ -77,7 +83,7 @@ extension SearchMovieViewController: SearchMoviePresenterOutput {
 extension SearchMovieViewController : UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        router?.navigateToMovieList(navigationController: navigationController)
+         router?.navigateToMovieList(navigationController: navigationController)
         return true
     }
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
