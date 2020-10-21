@@ -19,10 +19,9 @@ protocol MovieListDisplayLogic: class
 
 class MovieListViewController: UITableViewController, MovieListDisplayLogic
 {
-//    var movies : [Results?] = []
-    var api = API()
-    var viewModel = MovieViewModel()
+    var mainWorker = MoviesWorker()
     var interactor: MovieListBusinessLogic?
+    var listInteractor = MovieListInteractor()
     var router: (NSObjectProtocol & MovieListRoutingLogic & MovieListDataPassing)?
     
     // MARK: Object lifecycle
@@ -72,15 +71,14 @@ class MovieListViewController: UITableViewController, MovieListDisplayLogic
     {
         super.viewDidLoad()
         doSomething()
-        api.getMovie { (result) in
+        mainWorker.getMovie { (result) in
             print(result)
         }
-        //    tableView.dataSource = self
-//          self.movieBrain.delegate = self
+
         tableView.reloadData()
    
     }
-    
+
     // MARK: Do something
     
     func doSomething()
@@ -97,7 +95,7 @@ class MovieListViewController: UITableViewController, MovieListDisplayLogic
     }
   
     private func loadSearchedMovies(){
-        viewModel.fetchMoviesData { [weak self] in
+        listInteractor.fetchMoviesData { [weak self] in
             self?.tableView.reloadData()
         }
     }
@@ -109,24 +107,13 @@ class MovieListViewController: UITableViewController, MovieListDisplayLogic
 extension MovieListViewController{
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return viewModel.numberOfRowInSection(section: section)
+        return listInteractor.numberOfRowInSection(section: section)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
-//        let movie = movies[indexPath.row]
-//        cell.movieTitleLabel.text = movie?.title
-//        cell.relaseDateLabel.text = movie?.releaseDate
-//        cell.movieDiscriptionLabel.text = movie?.overview
-//        let imageURL = URL(fileURLWithPath: movie?.poster ?? "")
-//        if let imageData = try? Data(contentsOf: imageURL){
-//            cell.imageView?.image = UIImage(data: imageData)
-//        }else{
-//            print("error loading image from url")
-//        }
-////        print(movie?.title)
-        let movie = viewModel.cellForRowAt(indexPath: indexPath)
+        let movie = listInteractor.cellForRowAt(indexPath: indexPath)
         cell.setCellWithValues(movie: movie)
         return cell
     }
@@ -134,18 +121,3 @@ extension MovieListViewController{
 
 
 
-//MARK:- MovieBrainDelegate
-
-//extension MovieListViewController : MovieBrainDelegate{
-//    func setMovie(_ movieBrain: MovieBrain, movie: MovieData) {
-//        DispatchQueue.main.async{
-//            self.movies = movie.results
-//            print(self.movies)
-//        }
-//    }
-//    func didFailWithError(_ error: Error) {
-//        print(error)
-//    }
-//
-//
-//}

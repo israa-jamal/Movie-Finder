@@ -14,28 +14,51 @@ import UIKit
 
 protocol MovieListBusinessLogic
 {
-  func doSomething(request: MovieList.Something.Request)
+    func doSomething(request: MovieList.Something.Request)
 }
 
 protocol MovieListDataStore
 {
-  //var name: String { get set }
+    //var name: String { get set }
 }
 
 class MovieListInteractor: MovieListBusinessLogic, MovieListDataStore
 {
-  var presenter: MovieListPresentationLogic?
-  var worker: MovieListWorker?
-  //var name: String = ""
-  
-  // MARK: Do something
-  
-  func doSomething(request: MovieList.Something.Request)
-  {
-    worker = MovieListWorker()
-    worker?.doSomeWork()
+    var presenter: MovieListPresentationLogic?
+    var worker: MovieListWorker?
+    var mainWorker = MoviesWorker()
     
-    let response = MovieList.Something.Response()
-    presenter?.presentSomething(response: response)
-  }
+    
+    private var searchedMovies = [Movie]()
+    // MARK: Do something
+    
+    func doSomething(request: MovieList.Something.Request)
+    {
+        worker = MovieListWorker()
+        worker?.doSomeWork()
+        
+        let response = MovieList.Something.Response()
+        presenter?.presentSomething(response: response)
+    }
+    func fetchMoviesData(completion: @escaping () ->()){
+        mainWorker.getMovie { [weak self] (result) in
+            switch result{
+            case .success(let listOf):
+                self?.searchedMovies = listOf.movies
+                completion()
+            case.failure(let error):
+                print("error processing data\(error)")
+                
+            }
+        }
+    }
+    func numberOfRowInSection(section: Int) -> Int{
+        if searchedMovies.count != 0{
+            return searchedMovies.count
+        }
+        return 0
+    }
+    func cellForRowAt(indexPath: IndexPath) -> Movie{
+        return searchedMovies[indexPath.row]
+    }
 }

@@ -20,7 +20,7 @@ protocol SearchMovieDisplayLogic: class
 class SearchMovieViewController: UIViewController, SearchMovieDisplayLogic{
     var interactor: SearchMovieBusinessLogic?
     var router: (NSObjectProtocol & SearchMovieRoutingLogic & SearchMovieDataPassing)?
-    var api = API()
+    var mainWorker = MoviesWorker()
     // MARK: Object lifecycle
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
@@ -80,7 +80,7 @@ class SearchMovieViewController: UIViewController, SearchMovieDisplayLogic{
         super.viewDidLoad()
         doSomething()
         configureUI()
-        api.getMovie { (result) in
+        mainWorker.getMovie { (result) in
             print(result)
         }
     }
