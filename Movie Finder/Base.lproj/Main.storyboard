@@ -10,7 +10,7 @@
         <!--Search Movie View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="SearchMovieViewController" customModule="Movie_Finder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SearchMovieViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="SearchMovieViewController" customModule="Movie_Finder" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -71,7 +71,7 @@
                     <connections>
                         <outlet property="searchFieldView" destination="7eU-LX-ze2" id="GCi-sa-aFe"/>
                         <outlet property="searchTextField" destination="vdV-c3-Hre" id="DEo-PA-HhD"/>
-                        <segue destination="uIs-BX-PhJ" kind="show" identifier="MovieList" id="UFe-e9-GdL"/>
+                        <segue destination="uIs-BX-PhJ" kind="show" identifier="ShowMovieListScene" id="UFe-e9-GdL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -81,7 +81,7 @@
         <!--Movie List View Controller-->
         <scene sceneID="EnT-UG-SRQ">
             <objects>
-                <tableViewController storyboardIdentifier="MovieListViewController" id="uIs-BX-PhJ" customClass="MovieListViewController" customModule="Movie_Finder" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="MovieListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="uIs-BX-PhJ" customClass="MovieListViewController" customModule="Movie_Finder" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="150" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="4zu-wl-smI">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -94,17 +94,20 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="eGa-Bu-QyD">
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="eGa-Bu-QyD">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3v2-4Y-ePk">
-                                                    <rect key="frame" x="0.0" y="0.0" width="204.5" height="150"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="92" height="150"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="92" id="aSY-jO-QOn"/>
+                                                    </constraints>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="X8d-Vj-jpV">
-                                                    <rect key="frame" x="209.5" y="0.0" width="204.5" height="150"/>
+                                                    <rect key="frame" x="97" y="0.0" width="317" height="150"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G2z-OT-og6">
-                                                            <rect key="frame" x="0.0" y="0.0" width="204.5" height="40"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="317" height="40"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="40" id="GFd-ab-odv"/>
                                                             </constraints>
@@ -113,7 +116,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Relase Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pxz-VE-vFm">
-                                                            <rect key="frame" x="0.0" y="40" width="204.5" height="40"/>
+                                                            <rect key="frame" x="0.0" y="40" width="317" height="40"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="40" id="mIF-ff-6tV"/>
                                                             </constraints>
@@ -121,8 +124,8 @@
                                                             <color key="textColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie Discription" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yVo-t2-hyW">
-                                                            <rect key="frame" x="0.0" y="80" width="204.5" height="70"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie Discription" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yVo-t2-hyW">
+                                                            <rect key="frame" x="0.0" y="80" width="317" height="70"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <color key="textColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -132,6 +135,7 @@
                                             </subviews>
                                         </stackView>
                                     </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="eGa-Bu-QyD" secondAttribute="bottom" id="Mhq-BY-zz5"/>
                                         <constraint firstItem="eGa-Bu-QyD" firstAttribute="leading" secondItem="uFy-AR-Ynr" secondAttribute="leading" id="S5L-jC-kyG"/>
@@ -140,7 +144,11 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="u4F-Cn-YjR" kind="show" id="xLt-t7-UOh"/>
+                                    <outlet property="movieDiscriptionLabel" destination="yVo-t2-hyW" id="NHJ-CY-E66"/>
+                                    <outlet property="movieImageView" destination="3v2-4Y-ePk" id="upA-85-2q8"/>
+                                    <outlet property="movieTitleLabel" destination="G2z-OT-og6" id="gLQ-0y-wgi"/>
+                                    <outlet property="relaseDateLabel" destination="yVo-t2-hyW" id="A2i-qz-mqT"/>
+                                    <segue destination="u4F-Cn-YjR" kind="show" identifier="ShowMovieDetailsScene" id="rJn-xF-swd"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -153,12 +161,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5gk-BY-8KX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1921.7391304347827" y="97.767857142857139"/>
+            <point key="canvasLocation" x="1781" y="98"/>
         </scene>
         <!--Movie Details View Controller-->
         <scene sceneID="b1P-0x-mhV">
             <objects>
-                <viewController id="u4F-Cn-YjR" customClass="MovieDetailsViewController" customModule="Movie_Finder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MovieDetailsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="u4F-Cn-YjR" customClass="MovieDetailsViewController" customModule="Movie_Finder" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="E8t-Jx-uga">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

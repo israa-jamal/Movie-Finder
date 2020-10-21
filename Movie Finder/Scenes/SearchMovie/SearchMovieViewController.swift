@@ -20,7 +20,7 @@ protocol SearchMovieDisplayLogic: class
 class SearchMovieViewController: UIViewController, SearchMovieDisplayLogic{
     var interactor: SearchMovieBusinessLogic?
     var router: (NSObjectProtocol & SearchMovieRoutingLogic & SearchMovieDataPassing)?
-    
+    var api = API()
     // MARK: Object lifecycle
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
@@ -80,6 +80,9 @@ class SearchMovieViewController: UIViewController, SearchMovieDisplayLogic{
         super.viewDidLoad()
         doSomething()
         configureUI()
+        api.getMovie { (result) in
+            print(result)
+        }
     }
     
     // MARK: UIView Components
@@ -90,7 +93,7 @@ class SearchMovieViewController: UIViewController, SearchMovieDisplayLogic{
     @IBAction func searchButton(_ sender: UIButton) {
         router?.routeToListView(segue: nil)
     }
-    var movieBrain = MovieBrain()
+//    var movieBrain = MovieBrain()
 
     
     private func configureUI(){
@@ -134,7 +137,7 @@ extension SearchMovieViewController : UITextFieldDelegate {
        }
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let movie = textField.text {
-            movieBrain.fetchMovie(movie)
+//            movieBrain.fetchMovie(movie)
         }
         searchTextField.text = ""
     }

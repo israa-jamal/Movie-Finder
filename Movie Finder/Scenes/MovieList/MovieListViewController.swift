@@ -14,76 +14,94 @@ import UIKit
 
 protocol MovieListDisplayLogic: class
 {
-  func displaySomething(viewModel: MovieList.Something.ViewModel)
+    func displaySomething(viewModel: MovieList.Something.ViewModel)
 }
 
 class MovieListViewController: UITableViewController, MovieListDisplayLogic
 {
-  var interactor: MovieListBusinessLogic?
-  var router: (NSObjectProtocol & MovieListRoutingLogic & MovieListDataPassing)?
-
-  // MARK: Object lifecycle
-  
-  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
-  {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    setup()
-  }
-  
-  required init?(coder aDecoder: NSCoder)
-  {
-    super.init(coder: aDecoder)
-    setup()
-  }
-  
-  // MARK: Setup
-  
-  private func setup()
-  {
-    let viewController = self
-    let interactor = MovieListInteractor()
-    let presenter = MovieListPresenter()
-    let router = MovieListRouter()
-    viewController.interactor = interactor
-    viewController.router = router
-    interactor.presenter = presenter
-    presenter.viewController = viewController
-    router.viewController = viewController
-    router.dataStore = interactor
-  }
-  
-  // MARK: Routing
-  
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-  {
-    if let scene = segue.identifier {
-      let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
-      if let router = router, router.responds(to: selector) {
-        router.perform(selector, with: segue)
-      }
-    }
-  }
-  
-  // MARK: View lifecycle
-  
-  override func viewDidLoad()
-  {
-    super.viewDidLoad()
-    doSomething()
-  }
-  
-  // MARK: Do something
+//    var movies : [Results?] = []
+    var api = API()
+    var viewModel = MovieViewModel()
+    var interactor: MovieListBusinessLogic?
+    var router: (NSObjectProtocol & MovieListRoutingLogic & MovieListDataPassing)?
     
-  func doSomething()
-  {
-    let request = MovieList.Something.Request()
-    interactor?.doSomething(request: request)
-  }
+    // MARK: Object lifecycle
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
+    {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        setup()
+    }
+    
+    required init?(coder aDecoder: NSCoder)
+    {
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    // MARK: Setup
+    
+    private func setup()
+    {
+        let viewController = self
+        let interactor = MovieListInteractor()
+        let presenter = MovieListPresenter()
+        let router = MovieListRouter()
+        viewController.interactor = interactor
+        viewController.router = router
+        interactor.presenter = presenter
+        presenter.viewController = viewController
+        router.viewController = viewController
+        router.dataStore = interactor
+    }
+    
+    // MARK: Routing
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if let scene = segue.identifier {
+            let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
+            if let router = router, router.responds(to: selector) {
+                router.perform(selector, with: segue)
+            }
+        }
+    }
+    
+    // MARK: View lifecycle
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+        doSomething()
+        api.getMovie { (result) in
+            print(result)
+        }
+        //    tableView.dataSource = self
+//          self.movieBrain.delegate = self
+        tableView.reloadData()
+   
+    }
+    
+    // MARK: Do something
+    
+    func doSomething()
+    {
+        let request = MovieList.Something.Request()
+        interactor?.doSomething(request: request)
+        loadSearchedMovies()
+        
+    }
+    
+    func displaySomething(viewModel: MovieList.Something.ViewModel)
+    {
+        //nameTextField.text = viewModel.name
+    }
   
-  func displaySomething(viewModel: MovieList.Something.ViewModel)
-  {
-    //nameTextField.text = viewModel.name
-  }
+    private func loadSearchedMovies(){
+        viewModel.fetchMoviesData { [weak self] in
+            self?.tableView.reloadData()
+        }
+    }
+        
 }
 
 //MARK:- UITableView
@@ -91,13 +109,43 @@ class MovieListViewController: UITableViewController, MovieListDisplayLogic
 extension MovieListViewController{
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-      return 10
+        return viewModel.numberOfRowInSection(section: section)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-//      let displayedOrder = displayedOrders[indexPath.row]
-      let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell")
-      return cell!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
+//        let movie = movies[indexPath.row]
+//        cell.movieTitleLabel.text = movie?.title
+//        cell.relaseDateLabel.text = movie?.releaseDate
+//        cell.movieDiscriptionLabel.text = movie?.overview
+//        let imageURL = URL(fileURLWithPath: movie?.poster ?? "")
+//        if let imageData = try? Data(contentsOf: imageURL){
+//            cell.imageView?.image = UIImage(data: imageData)
+//        }else{
+//            print("error loading image from url")
+//        }
+////        print(movie?.title)
+        let movie = viewModel.cellForRowAt(indexPath: indexPath)
+        cell.setCellWithValues(movie: movie)
+        return cell
     }
 }
+
+
+
+//MARK:- MovieBrainDelegate
+
+//extension MovieListViewController : MovieBrainDelegate{
+//    func setMovie(_ movieBrain: MovieBrain, movie: MovieData) {
+//        DispatchQueue.main.async{
+//            self.movies = movie.results
+//            print(self.movies)
+//        }
+//    }
+//    func didFailWithError(_ error: Error) {
+//        print(error)
+//    }
+//
+//
+//}
