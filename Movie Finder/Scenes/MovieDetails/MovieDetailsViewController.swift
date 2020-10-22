@@ -28,7 +28,11 @@ class MovieDetailsViewController: UIViewController, MovieDetailsViewControllerIn
     }
     
     // MARK: View lifecycle
+    //outlets
+    @IBOutlet weak var posterImageView: UIImageView!
     
+    
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }

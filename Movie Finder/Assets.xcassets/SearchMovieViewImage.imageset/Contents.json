@@ -1,15 +1,23 @@
 {
   "images" : [
     {
-      "filename" : "Movie Finder.pdf",
-      "idiom" : "universal"
+      "filename" : "Movie Finder-3.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "Movie Finder-3@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "Movie Finder-3@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" : {
-    "preserves-vector-representation" : true
   }
 }
