@@ -13,6 +13,7 @@ import UIKit
 // MARK: Connect View, Interactor, and Presenter
 
 extension MovieListInteractor: MovieListViewControllerOutput, MovieListRouterDataSource, MovieListRouterDataDestination {
+    
 }
 
 extension MovieListPresenter: MovieListInteractorOutput {

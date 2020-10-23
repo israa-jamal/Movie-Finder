@@ -11,24 +11,22 @@
 import UIKit
 
 protocol MovieListViewControllerInput {
-    func presentData(movies: [Movie])
+    func presentData(movies: [MovieListModel.ViewModel])
 }
 
 protocol MovieListViewControllerOutput {
-    var results : [Movie]? {set get}
-
+    var  searchedMovie: String? {set get}
+    func fetchMoviesData()
+    func cellForRowAt(indexPath: IndexPath) -> Movie
+    func numberOfRowInSection(section: Int) -> Int
+    
 }
 
 class MovieListViewController: UITableViewController, MovieListViewControllerInput {
-    func presentData(movies: [Movie]) {
-        self.movieResults = movies
-    }
-    
-    
+
     var output: MovieListViewControllerOutput?
     var router: MovieListRouter?
-    var requestedMovie = ""
-    var movieResults : [Movie] = []
+    var movieResults : [MovieListModel.ViewModel] = []
     // MARK: Object lifecycle
     
     override func awakeFromNib() {
@@ -40,29 +38,36 @@ class MovieListViewController: UITableViewController, MovieListViewControllerInp
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableView.reloadData()
+        output?.fetchMoviesData()
     }
-    
-    // MARK: Requests
-    
     
     // MARK: Display logic
     
+    func presentData(movies: [MovieListModel.ViewModel]) {
+           DispatchQueue.main.async {
+            print(movies)
+            self.movieResults = movies
+            self.tableView.reloadData()
+           }
+       }
+
 }
 
 //This should be on configurator but for some reason storyboard doesn't detect ViewController's name if placed there
 extension MovieListViewController: MovieListPresenterOutput {
+   
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         router?.passDataToNextScene(for: segue)
     }
 }
+
 //MARK:- UITableView
 
 extension MovieListViewController{
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return movieResults.count
+        return output?.numberOfRowInSection(section: section) ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
@@ -70,7 +75,7 @@ extension MovieListViewController{
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
         let movie = movieResults[indexPath.row]
         cell.setCellWithValues(movie: movie)
-        return cell
+        return cell 
     }
 }
 

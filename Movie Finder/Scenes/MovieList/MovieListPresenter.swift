@@ -13,18 +13,23 @@ protocol MovieListPresenterInput {
 }
 
 protocol MovieListPresenterOutput: class {
-    func presentData(movies: [Movie])
+    func presentData(movies: [MovieListModel.ViewModel])
 }
 
 class MovieListPresenter: MovieListPresenterInput {
-    func passDataToModeling(movies: [Movie]) { 
-        output?.presentData(movies: movies)
-    }
-    
-    
+   
     weak var output: MovieListPresenterOutput?
     
     // MARK: Presentation logic
-    
+    func passDataToModeling(movies: [Movie]) {
+        var moviesArray : [MovieListModel.ViewModel] = []
+        var i = 0
+        for _ in movies{
+            let movie = MovieListModel.ViewModel(movieTitle: movies[i].title, relaseDate: movies[i].release_date, MovieOverview: movies[i].overview, moviePoster: movies[i].poster_path)
+            moviesArray.append(movie)
+            i += 1
+        }
+        output?.presentData(movies: moviesArray)
+    }
     
 }

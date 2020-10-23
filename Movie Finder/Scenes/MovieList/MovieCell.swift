@@ -8,7 +8,17 @@
 
 import UIKit
 
+//protocol MovieCellViewInput {
+//        func presentData(movies: [MovieListModel.ViewModel])
+//
+//}
+//protocol MovieCellViewOutput{
+//
+//}
 class MovieCell: UITableViewCell{
+//    func presentData(movies: [MovieListModel.ViewModel]) {
+//
+//    }
     
     @IBOutlet weak var movieImageView: UIImageView!
     @IBOutlet weak var movieTitleLabel: UILabel!
@@ -16,8 +26,9 @@ class MovieCell: UITableViewCell{
     @IBOutlet weak var movieDiscriptionLabel: UILabel!
     
     private var urlString : String = ""
-    func setCellWithValues(movie: Movie){
-        updateUI(title: movie.title, relaseDate: movie.releaseDate, overView: movie.overview, poster: movie.posterPath)
+    
+    func setCellWithValues(movie: MovieListModel.ViewModel){
+        updateUI(title: movie.movieTitle, relaseDate: movie.relaseDate, overView: movie.MovieOverview, poster: movie.moviePoster)
     }
     private func updateUI(title: String?, relaseDate: String?, overView: String?, poster: String?){
         self.movieTitleLabel.text = title
@@ -54,7 +65,6 @@ class MovieCell: UITableViewCell{
 
         }
         .resume()
-
     }
     
 }

@@ -10,37 +10,49 @@
 import UIKit
 protocol SearchMovieInteractorInput {
     var searchedMovie: String? {set get}
+//    func sendMovie(movie: String?)
+
 }
 
 protocol SearchMovieInteractorOutput {
-    func passDataToModeling(movies: [Movie])
+//    func sendMovie(movie: String?)
 }
 
 protocol SearchMovieDataSource {
-    
 }
 
 protocol SearchMovieDataDestination {
-    
 }
-
+protocol SearchHistoryDelegate {
+    func addNewElementToSearchHistory(add element: String)
+}
+    
 class SearchMovieInteractor: SearchMovieInteractorInput, SearchMovieDataSource, SearchMovieDataDestination {
+    
+    var delegate : SearchHistoryDelegate?
     var searchedMovie: String?
     var output: SearchMovieInteractorOutput?
-    var worker = SearchMovieWorker()
-    var results : [Movie]?
+
     
     // MARK: Do something
-    func fetchMoviesData(completion: @escaping () ->()){
-        worker.getMovie(movie: searchedMovie!) { [weak self] (result) in
-            switch result{
-            case .success(let listOf):
-                self?.results = listOf.movies
-                self?.output?.passDataToModeling(movies: (self?.results)!)
-                completion()
-            case.failure(let error):
-                print("error processing data\(error)")
-            }
-        }
+    func sendMovieToNextScene(){
+        
     }
+//    func fetchMoviesData(completion: @escaping () ->()){
+//        if let movieName = searchedMovie{
+//        worker.getMovie(movie: movieName) { [weak self] (result) in
+//            switch result{
+//            case .success(let listOf):
+//                delegate?.addNewElementToSearchHistory(add: movieName)
+//                self?.results = listOf.movies
+//                self?.output?.passDataToModeling(movies: (self?.results)!)
+//                completion()
+//            case.failure(let error):
+//                print("error processing data\(error)")
+//            }
+//        }
+//        }
+//    }
+//
+    
 }

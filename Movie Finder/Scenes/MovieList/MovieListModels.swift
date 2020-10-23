@@ -10,6 +10,21 @@
 //
 //  Type "usecase" for some magic!
 
-struct MovieListScene {
+
+struct MovieListModel {
     
+    struct Request {
+        
+    }
+    
+    struct Response {
+        
+    }
+    
+    struct ViewModel {
+        let movieTitle : String
+        let relaseDate : String
+        let MovieOverview : String
+        var moviePoster : String
+    }
 }

@@ -48,8 +48,8 @@ class SearchMovieRouter: SearchMovieRouterInput {
     }
     func navigateToMovieList(navigationController : UINavigationController?){
         let movieListVC = mainStoryBoard.instantiateViewController(withIdentifier: "MovieListViewController") as! MovieListViewController
-        if let movies = viewController.output?.results{
-        movieListVC.output?.results = movies
+        if let movie = viewController.output?.searchedMovie{
+            movieListVC.output?.searchedMovie = movie
         navigationController?.pushViewController(movieListVC, animated: true)
         }else{
             print("error")

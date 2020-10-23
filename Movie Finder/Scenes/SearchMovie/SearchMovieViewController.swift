@@ -10,30 +10,31 @@
 
 import UIKit
 
-protocol SearchHistoryDelegate {
-    func addNewElementToSearchHistory(add element: String)
-}
+
 protocol SearchMovieViewControllerInput {
-    func presentData(movies: [Movie])
+    //    func presentData(movies: [Movie])
 }
 
 protocol SearchMovieViewControllerOutput {
     var searchedMovie: String? {set get}
-    var results : [Movie]? {set get}
+    //    var results : [Movie]? {set get}
     
 }
 
 class SearchMovieViewController: UIViewController, SearchMovieViewControllerInput {
+    
     //Outlets
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var searchFieldView: UIView!
+    @IBOutlet weak var tableView: UITableView!
+    
     
     var output: SearchMovieViewControllerOutput?
     var router: SearchMovieRouter?
     var results : [Movie]?
-    var delegate : SearchHistoryDelegate?
     var searchHistory = SearchHistory()
-    private let tableView = UITableView()
+    
+    
     
     // MARK: Object lifecycle
     
@@ -62,12 +63,8 @@ class SearchMovieViewController: UIViewController, SearchMovieViewControllerInpu
     
     private func configureUI(){
         searchFieldView.layer.cornerRadius = 20
-        searchTextField.attributedPlaceholder = NSAttributedString(string: "Search a movie..", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white])
+        searchTextField.attributedPlaceholder = NSAttributedString(string: "Search a movie..", attributes: [NSAttributedString.Key.foregroundColor : UIColor(white:1, alpha: 0.75)])
         self.searchTextField.delegate = self
-    }
-    
-    func presentData(movies: [Movie]){
-        self.results = movies
     }
     
     // MARK: Requests
@@ -75,7 +72,10 @@ class SearchMovieViewController: UIViewController, SearchMovieViewControllerInpu
     
     // MARK: Display logic
     @IBAction func searchButton(_ sender: UIButton) {
-        router?.navigateToMovieList(navigationController: navigationController)
+        if checkIfTextFieldIsNotEmpty(){
+            output?.searchedMovie = searchTextField.text
+            router?.navigateToMovieList(navigationController: navigationController)
+        }
     }
 }
 
@@ -90,8 +90,13 @@ extension SearchMovieViewController: SearchMoviePresenterOutput {
 extension SearchMovieViewController : UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        router?.navigateToMovieList(navigationController: navigationController)
-        return true
+        if checkIfTextFieldIsNotEmpty(){
+            output?.searchedMovie = textField.text
+            router?.navigateToMovieList(navigationController: navigationController)
+            return true
+        }
+        return false
+        
     }
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         if textField.text != ""
@@ -106,22 +111,23 @@ extension SearchMovieViewController : UITextFieldDelegate {
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let movie = textField.text {
-            delegate?.addNewElementToSearchHistory(add: movie)
-            output?.searchedMovie = movie
-            UIView.animate(withDuration: 0.3,
-                           animations: {
-                            self.tableView.frame.origin.y = self.view.frame.height
-                            self.tableView.alpha = 0
-            })
+//                delegate?.addNewElementToSearchHistory(add: movie)
+//            output?.searchedMovie = movie
         }
         searchTextField.text = ""
     }
     func textFieldDidBeginEditing(_ textField: UITextField) {
         UIView.animate(withDuration: 0.4, animations: {
-            //show animated tableView with locationInputView
-            self.tableView.frame.origin.y = 200
             self.tableView.alpha = 1
         })
+        
+    }
+    func checkIfTextFieldIsNotEmpty() -> Bool{
+        if searchTextField.text != "" {
+            return true
+        }
+            self.searchTextField.placeholder = "Please write a movie name"
+        return false
     }
     
 }
@@ -133,13 +139,9 @@ extension SearchMovieViewController : UITableViewDataSource, UITableViewDelegate
         //adding tableView to the screen
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.backgroundColor = .red
-        tableView.register(UINib(nibName: "SearchTableViewCell", bundle: nil), forCellReuseIdentifier: "searchCell")
         tableView.rowHeight = 50
         tableView.alpha = 0
-        tableView.tableFooterView = UIView()
-        tableView.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width,height: tableView.contentSize.height)
-        view.addSubview(tableView)
+        tableView.frame.size.height = tableView.contentSize.height
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchHistory.getHistoryElementsCount()
@@ -150,4 +152,7 @@ extension SearchMovieViewController : UITableViewDataSource, UITableViewDelegate
         cell.searchLabel.text = searchHistory.getSearchHistoryElements(indexPath: indexPath)
         return cell
     }
+    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    //        <#code#>
+    //    }
 }

@@ -9,12 +9,12 @@
 //  https://github.com/HelmMobile/clean-swift-templates
 
 protocol SearchMoviePresenterInput {
-    func passDataToModeling(movies: [Movie])
+//    func passDataToModeling(movies: [Movie])
 
 }
 
 protocol SearchMoviePresenterOutput: class {
-    func presentData(movies: [Movie])
+//    func presentData(movies: [Movie])
 }
 
 class SearchMoviePresenter: SearchMoviePresenterInput {
@@ -22,8 +22,8 @@ class SearchMoviePresenter: SearchMoviePresenterInput {
     weak var output: SearchMoviePresenterOutput?
     
     // MARK: Presentation logic
-    func passDataToModeling(movies: [Movie]){
-        output?.presentData(movies: movies)
-        print("done")
-    }
+//    func passDataToModeling(movies: [Movie]){
+//        output?.presentData(movies: movies)
+//        print("done")
+//    }
 }
