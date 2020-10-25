@@ -22,9 +22,9 @@ struct MovieListModel {
     }
     
     struct ViewModel {
-        let movieTitle : String
-        let relaseDate : String
-        let MovieOverview : String
-        var moviePoster : String
+        let movieTitle : String?
+        let relaseDate : String?
+        let MovieOverview : String?
+        var moviePoster : String?
     }
 }

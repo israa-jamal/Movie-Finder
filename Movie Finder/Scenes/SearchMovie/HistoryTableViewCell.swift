@@ -1,16 +1,17 @@
 //
-//  SearchTableViewCell.swift
+//  HistoryTableViewCell.swift
 //  Movie Finder
 //
-//  Created by Esraa Gamal on 10/22/20.
+//  Created by Esraa Gamal on 10/25/20.
 //  Copyright © 2020 Esraa Gamal. All rights reserved.
 //
 
 import UIKit
 
-class SearchTableViewCell: UITableViewCell {
+class HistoryTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var searchLabel: UILabel!
+    @IBOutlet weak var searchHistoryLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -20,6 +21,7 @@ class SearchTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+        
     }
-
+    
 }

@@ -12,13 +12,10 @@ import UIKit
 
 
 protocol SearchMovieViewControllerInput {
-    //    func presentData(movies: [Movie])
 }
 
 protocol SearchMovieViewControllerOutput {
     var searchedMovie: String? {set get}
-    //    var results : [Movie]? {set get}
-    
 }
 
 class SearchMovieViewController: UIViewController, SearchMovieViewControllerInput {
@@ -27,14 +24,14 @@ class SearchMovieViewController: UIViewController, SearchMovieViewControllerInpu
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var searchFieldView: UIView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableViewHeight : NSLayoutConstraint!
     
-    
+   
+    //Proprites
     var output: SearchMovieViewControllerOutput?
     var router: SearchMovieRouter?
     var results : [Movie]?
     var searchHistory = SearchHistory()
-    
-    
     
     // MARK: Object lifecycle
     
@@ -47,6 +44,7 @@ class SearchMovieViewController: UIViewController, SearchMovieViewControllerInpu
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
+        loadHistory()
     }
     
     //display the navigation bar before going to the next views
@@ -58,13 +56,22 @@ class SearchMovieViewController: UIViewController, SearchMovieViewControllerInpu
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        configureTableView()
+        
     }
     
+    
+    
+    func loadHistory(){
+            SearchHistory.history = self.searchHistory.defaults.array(forKey: "history") as! [String]
+        tableView.alpha = 0
+        tableViewHeight.constant = CGFloat(searchHistory.getHistoryElementsCount() * 50)
+        tableView.reloadData()
+    }
     private func configureUI(){
         searchFieldView.layer.cornerRadius = 20
         searchTextField.attributedPlaceholder = NSAttributedString(string: "Search a movie..", attributes: [NSAttributedString.Key.foregroundColor : UIColor(white:1, alpha: 0.75)])
         self.searchTextField.delegate = self
+        
     }
     
     // MARK: Requests
@@ -89,9 +96,8 @@ extension SearchMovieViewController: SearchMoviePresenterOutput {
 
 extension SearchMovieViewController : UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
         if checkIfTextFieldIsNotEmpty(){
-            output?.searchedMovie = textField.text
+            textField.resignFirstResponder()
             router?.navigateToMovieList(navigationController: navigationController)
             return true
         }
@@ -111,8 +117,7 @@ extension SearchMovieViewController : UITextFieldDelegate {
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let movie = textField.text {
-//                delegate?.addNewElementToSearchHistory(add: movie)
-//            output?.searchedMovie = movie
+            output?.searchedMovie = movie
         }
         searchTextField.text = ""
     }
@@ -124,32 +129,37 @@ extension SearchMovieViewController : UITextFieldDelegate {
     }
     func checkIfTextFieldIsNotEmpty() -> Bool{
         if searchTextField.text != "" {
+        
             return true
         }
             self.searchTextField.placeholder = "Please write a movie name"
         return false
     }
+    @IBAction func textFieldEditingChanged(_ sender: UITextField) {
+        if sender.text == "" {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.tableView.alpha = 1
+            })
+        }else{
+        tableView.alpha = 0
+        }
+    
+       }
+    
     
 }
+
 //MARK:- SearchHistoryTableView
 
 extension SearchMovieViewController : UITableViewDataSource, UITableViewDelegate{
     
-    func configureTableView(){
-        //adding tableView to the screen
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.rowHeight = 50
-        tableView.alpha = 0
-        tableView.frame.size.height = tableView.contentSize.height
-    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchHistory.getHistoryElementsCount()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell", for: indexPath) as! SearchTableViewCell
-        cell.searchLabel.text = searchHistory.getSearchHistoryElements(indexPath: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "historyCell", for: indexPath) as! HistoryTableViewCell
+        cell.searchHistoryLabel.text = searchHistory.getSearchHistoryElements(indexPath: indexPath)
         return cell
     }
     //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

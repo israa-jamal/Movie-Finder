@@ -45,7 +45,7 @@ class MovieListViewController: UITableViewController, MovieListViewControllerInp
     
     func presentData(movies: [MovieListModel.ViewModel]) {
            DispatchQueue.main.async {
-            print(movies)
+//            print(movies)
             self.movieResults = movies
             self.tableView.reloadData()
            }

@@ -27,22 +27,25 @@ protocol MovieListDataSource {
 protocol MovieListDataDestination {
     
 }
-
+//protocol SearchHistoryDelegate {
+//     func addNewElementToSearchHistory(add element: String)
+//}
 class MovieListInteractor: MovieListInteractorInput, MovieListDataSource, MovieListDataDestination {
  
+//    var delegate : SearchHistoryDelegate?
     var searchedMovie: String?
     var results : [Movie]?
     var output: MovieListInteractorOutput?
-    
+    var history = SearchHistory()
     var apiWorker = APIWorker()
        func fetchMoviesData(){
             if let movieName = searchedMovie{
             apiWorker.getMovie(movie: movieName) { [weak self] (result) in
                 switch result{
                 case .success(let listOf):
-//                    delegate?.addNewElementToSearchHistory(add: movieName)
                     self?.results = listOf.movies
                     self?.output?.passDataToModeling(movies: (self?.results)!)
+                    self?.history.addNewElementToSearchHistory(add: movieName)
                 case.failure(let error):
                     print("error processing data\(error)")
                 }

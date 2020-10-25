@@ -16,11 +16,11 @@ struct MovieModel : Codable {
 }
 struct Movie : Codable
 {
-    let title : String
-    let release_date : String
-    let poster_path : String
-    let overview : String
-    let vote_average : Double
+    let title : String?
+    let release_date : String?
+    let poster_path : String?
+    let overview : String?
+    let vote_average : Double?
 }
 
 
