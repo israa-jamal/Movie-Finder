@@ -10,19 +10,6 @@
 
 class MovieListWorker {
     // MARK: Business Logic
-//    var api = API()
-//    func fetchMovieData(movie: String,completion: @escaping () ->()){
-//        api.getMovie(movie: movie) { [weak self] (result) in
-//            switch result{
-//            case .success(let listOf):
-////                delegate?.addNewElementToSearchHistory(add: movieName)
-////                self?.results = listOf.movies
-////                self?.output?.passDataToModeling(movies: (self?.results)!)
-//                completion()
-//            case.failure(let error):
-//                print("error processing data\(error)")
-//            }
-//        }
-//        }
+
         }
 

@@ -208,9 +208,13 @@
                         <connections>
                             <outlet property="dataSource" destination="uIs-BX-PhJ" id="PRj-Zb-UMH"/>
                             <outlet property="delegate" destination="uIs-BX-PhJ" id="dD7-P6-u1a"/>
+                            <outlet property="prefetchDataSource" destination="uIs-BX-PhJ" id="PSr-Mc-oMX"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="d46-ZR-G5w"/>
+                    <connections>
+                        <outlet property="tableViewMovies" destination="4zu-wl-smI" id="T7k-om-jPv"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5gk-BY-8KX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

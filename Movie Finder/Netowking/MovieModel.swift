@@ -10,8 +10,10 @@ import Foundation
 
 struct MovieModel : Codable {
     let movies : [Movie]
+    let pagesTotal : Int
     private enum CodingKeys: String, CodingKey{
         case movies = "results"
+        case pagesTotal = "total_pages"
     }
 }
 struct Movie : Codable

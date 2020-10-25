@@ -28,10 +28,6 @@ class SearchHistory {
         return SearchHistory.history.count
     }
     func getSearchHistoryElements(indexPath: IndexPath) -> String?{
-//        if let historyArray = SearchHistory.searchHistory[indexPath.row]{
-//            return historyArray
-//        }
-//        return nil
         return SearchHistory.history[indexPath.row]
     }
     func getAllHistory()-> [String]{

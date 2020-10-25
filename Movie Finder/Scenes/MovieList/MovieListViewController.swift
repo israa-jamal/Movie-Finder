@@ -16,14 +16,18 @@ protocol MovieListViewControllerInput {
 
 protocol MovieListViewControllerOutput {
     var  searchedMovie: String? {set get}
+    var  pageNumber: Int {set get}
     func fetchMoviesData()
     func cellForRowAt(indexPath: IndexPath) -> Movie
     func numberOfRowInSection(section: Int) -> Int
+    var  totalPages : Int {set get}
     
 }
 
-class MovieListViewController: UITableViewController, MovieListViewControllerInput {
-
+class MovieListViewController: UIViewController, MovieListViewControllerInput {
+  
+    @IBOutlet weak var tableViewMovies: UITableView!
+    
     var output: MovieListViewControllerOutput?
     var router: MovieListRouter?
     var movieResults : [MovieListModel.ViewModel] = []
@@ -36,26 +40,34 @@ class MovieListViewController: UITableViewController, MovieListViewControllerInp
     
     // MARK: View lifecycle
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        output?.pageNumber = 1
+        getData()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    func getData(){
+        if output?.pageNumber != output?.totalPages {
         output?.fetchMoviesData()
+        }
     }
     
     // MARK: Display logic
     
     func presentData(movies: [MovieListModel.ViewModel]) {
-           DispatchQueue.main.async {
-//            print(movies)
+        DispatchQueue.main.async {
             self.movieResults = movies
-            self.tableView.reloadData()
-           }
-       }
-
+            self.tableViewMovies.reloadData()
+        }
+    }
+    
 }
 
 //This should be on configurator but for some reason storyboard doesn't detect ViewController's name if placed there
 extension MovieListViewController: MovieListPresenterOutput {
-   
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         router?.passDataToNextScene(for: segue)
@@ -64,23 +76,29 @@ extension MovieListViewController: MovieListPresenterOutput {
 
 //MARK:- UITableView
 
-extension MovieListViewController{
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+extension MovieListViewController: UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching{
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return output?.numberOfRowInSection(section: section) ?? 0
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
         let movie = movieResults[indexPath.row]
         cell.setCellWithValues(movie: movie)
         return cell 
     }
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         router?.navigateToMovieDetails(navigationController: navigationController, indexPath: indexPath)
     }
+
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        let indexPathsForVisibleRows = tableView.indexPathsForVisibleRows ?? []
+        if indexPathsForVisibleRows.last?.row ?? 0 >= (movieResults.count) - 1 {
+            getData()
+        }
+    }
 }
-
-
 

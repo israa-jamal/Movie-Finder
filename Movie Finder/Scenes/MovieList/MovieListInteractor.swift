@@ -10,6 +10,8 @@
 import UIKit
 protocol MovieListInteractorInput {
     var searchedMovie: String? {set get}
+    var pageNumber: Int {set get}
+    var totalPages: Int {set get}
     func fetchMoviesData()
     func cellForRowAt(indexPath: IndexPath) -> Movie
     func numberOfRowInSection(section: Int) -> Int
@@ -17,48 +19,48 @@ protocol MovieListInteractorInput {
 
 protocol MovieListInteractorOutput {
     func passDataToModeling(movies: [Movie])
-
+    
 }
 
 protocol MovieListDataSource {
-       
+    
 }
 
 protocol MovieListDataDestination {
     
 }
-//protocol SearchHistoryDelegate {
-//     func addNewElementToSearchHistory(add element: String)
-//}
+
 class MovieListInteractor: MovieListInteractorInput, MovieListDataSource, MovieListDataDestination {
- 
-//    var delegate : SearchHistoryDelegate?
+    
     var searchedMovie: String?
-    var results : [Movie]?
+    var results : [Movie] = []
     var output: MovieListInteractorOutput?
     var history = SearchHistory()
     var apiWorker = APIWorker()
-       func fetchMoviesData(){
-            if let movieName = searchedMovie{
-            apiWorker.getMovie(movie: movieName) { [weak self] (result) in
+    var pageNumber = 1
+    var totalPages : Int = 0
+    
+    func fetchMoviesData(){
+        if let movieName = searchedMovie{
+            apiWorker.getMovie(page: pageNumber, movie: movieName) { [weak self] (result) in
                 switch result{
                 case .success(let listOf):
-                    self?.results = listOf.movies
-                    self?.output?.passDataToModeling(movies: (self?.results)!)
+                    self?.results.append(contentsOf: listOf.movies)
+                    self?.output?.passDataToModeling(movies: self?.results ?? [])
                     self?.history.addNewElementToSearchHistory(add: movieName)
+                    self?.totalPages = listOf.pagesTotal
+                    self?.pageNumber += 1
                 case.failure(let error):
                     print("error processing data\(error)")
                 }
             }
-            }
         }
+    }
     func numberOfRowInSection(section: Int) -> Int{
-        if let movieResult = results{
-            return movieResult.count
-        }
-        return 0
+        return results.count
+        
     }
     func cellForRowAt(indexPath: IndexPath) -> Movie{
-        return (results?[indexPath.row])!
+        return (results[indexPath.row])
     }
 }
