@@ -14,9 +14,13 @@ class SearchHistory {
     let defaults = UserDefaults.standard
     
      func addNewElementToSearchHistory(add element: String) {
+        if let index = SearchHistory.history.firstIndex(of: element){
+                       SearchHistory.history.remove(at: index)
+        }
         if SearchHistory.history.count == 10 {
             SearchHistory.history.remove(at: 9)
         }
+
         SearchHistory.history.insert(element, at: 0)
         defaults.set(SearchHistory.history, forKey: "history")
     }

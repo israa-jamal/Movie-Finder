@@ -59,8 +59,6 @@ class SearchMovieViewController: UIViewController, SearchMovieViewControllerInpu
         
     }
     
-    
-    
     func loadHistory(){
             SearchHistory.history = self.searchHistory.defaults.array(forKey: "history") as! [String]
         tableView.alpha = 0
@@ -121,6 +119,7 @@ extension SearchMovieViewController : UITextFieldDelegate {
         }
         searchTextField.text = ""
     }
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         UIView.animate(withDuration: 0.4, animations: {
             self.tableView.alpha = 1
@@ -162,7 +161,9 @@ extension SearchMovieViewController : UITableViewDataSource, UITableViewDelegate
         cell.searchHistoryLabel.text = searchHistory.getSearchHistoryElements(indexPath: indexPath)
         return cell
     }
-    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    //        <#code#>
-    //    }
+        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            output?.searchedMovie = SearchHistory.history[indexPath.row]
+            router?.navigateToMovieList(navigationController: navigationController)
+//            tableView.alpha = 0
+        }
 }
