@@ -77,6 +77,9 @@ extension MovieListViewController{
         cell.setCellWithValues(movie: movie)
         return cell 
     }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        router?.navigateToMovieDetails(navigationController: navigationController, indexPath: indexPath)
+    }
 }
 
 

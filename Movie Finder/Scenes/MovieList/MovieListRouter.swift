@@ -43,10 +43,9 @@ class MovieListRouter: MovieListRouterInput {
         // NOTE: Teach the router which scenes it can communicate with
         
     }
-    func navigateToMovieList(navigationController : UINavigationController?){
+    func navigateToMovieDetails(navigationController : UINavigationController?, indexPath: IndexPath){
         let movieDetailsVC = mainStoryBoard.instantiateViewController(withIdentifier: "MovieDetailsViewController") as! MovieDetailsViewController
-//        movieDetailsVC.output?.movies = viewController.output?.results ?? ""
+        movieDetailsVC.output?.selectedMovie = viewController.output?.cellForRowAt(indexPath: indexPath)
         navigationController?.pushViewController(movieDetailsVC, animated: true)
     }
-    
 }

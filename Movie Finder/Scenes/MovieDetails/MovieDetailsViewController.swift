@@ -11,12 +11,26 @@
 import UIKit
 
 protocol MovieDetailsViewControllerInput {
+    func displayData(movie: MovieDetailsModel.ViewModel)
 }
 
 protocol MovieDetailsViewControllerOutput {
+    var selectedMovie: Movie? {set get}
+    func loadMovieData()
+
 }
 
 class MovieDetailsViewController: UIViewController, MovieDetailsViewControllerInput {
+    
+    //outlets
+    @IBOutlet weak var moviePosterImageView: UIImageView!
+    @IBOutlet weak var movieTitleLabel: UILabel!
+    @IBOutlet weak var relaseDataLabel: UILabel!
+    @IBOutlet weak var movieDiscriptionLabel: UILabel!
+    @IBOutlet weak var rateLabel: UILabel!
+    
+    
+    //proprites
     var output: MovieDetailsViewControllerOutput?
     var router: MovieDetailsRouter?
     
@@ -28,13 +42,10 @@ class MovieDetailsViewController: UIViewController, MovieDetailsViewControllerIn
     }
     
     // MARK: View lifecycle
-    //outlets
-    @IBOutlet weak var posterImageView: UIImageView!
     
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
+        output?.loadMovieData()
     }
     
     // MARK: Requests
@@ -42,6 +53,16 @@ class MovieDetailsViewController: UIViewController, MovieDetailsViewControllerIn
     
     // MARK: Display logic
     
+    func displayData(movie: MovieDetailsModel.ViewModel) {
+        movieTitleLabel.text = movie.movieTitle
+        relaseDataLabel.text = movie.relaseDate
+        movieDiscriptionLabel.text = movie.MovieOverview
+        rateLabel.text = (String(describing: movie.rate)) + "/10"
+        let urlString = "https://image.tmdb.org/t/p/w780/" + movie.moviePoster!
+        let url = URL(string: urlString)
+        let data = try? Data(contentsOf: url!)
+        moviePosterImageView.image = UIImage(data: data!)
+    }
 }
 
 //This should be on configurator but for some reason storyboard doesn't detect ViewController's name if placed there

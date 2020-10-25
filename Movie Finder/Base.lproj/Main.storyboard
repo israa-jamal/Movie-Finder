@@ -202,7 +202,6 @@
                                     <outlet property="movieImageView" destination="3v2-4Y-ePk" id="upA-85-2q8"/>
                                     <outlet property="movieTitleLabel" destination="G2z-OT-og6" id="gLQ-0y-wgi"/>
                                     <outlet property="relaseDateLabel" destination="yVo-t2-hyW" id="A2i-qz-mqT"/>
-                                    <segue destination="u4F-Cn-YjR" kind="show" identifier="ShowMovieDetailsScene" id="rJn-xF-swd"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -222,20 +221,20 @@
             <objects>
                 <viewController storyboardIdentifier="MovieDetailsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="u4F-Cn-YjR" customClass="MovieDetailsViewController" customModule="Movie_Finder" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="E8t-Jx-uga">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="a9c-mG-Q12">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ThR-BG-F34">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="421"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="426"/>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eCB-XR-D5h">
-                                        <rect key="frame" x="0.0" y="421" width="414" height="421"/>
+                                        <rect key="frame" x="0.0" y="426" width="414" height="426"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="FcX-2l-Tx7">
-                                                <rect key="frame" x="20" y="10" width="374" height="401"/>
+                                                <rect key="frame" x="20" y="10" width="374" height="406"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rocky" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pLz-9J-o85">
                                                         <rect key="frame" x="0.0" y="0.0" width="80" height="60"/>
@@ -255,8 +254,17 @@
                                                         <color key="textColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7/10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TbI-3H-agZ" userLabel="7/9">
+                                                        <rect key="frame" x="0.0" y="110" width="40" height="50"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="7Cb-bf-fGq"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                        <color key="textColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T3F-VT-KSV">
-                                                        <rect key="frame" x="0.0" y="110" width="374" height="291"/>
+                                                        <rect key="frame" x="0.0" y="160" width="374" height="246"/>
                                                         <string key="text">When world heavyweight boxing champion, Apollo Creed wants to give an unknown fighter a shot at the title as a publicity stunt, his handlers choose palooka Rocky Balboa, an uneducated collector for a Philadelphia loan shark. Rocky teams up with trainer Mickey Goldmill to make the most of this once in a lifetime break</string>
                                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                                         <color key="textColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -287,7 +295,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="cpE-iM-kL0"/>
                     <connections>
-                        <outlet property="posterImageView" destination="ThR-BG-F34" id="FIX-K8-dDE"/>
+                        <outlet property="movieDiscriptionLabel" destination="T3F-VT-KSV" id="VVk-Pl-IIq"/>
+                        <outlet property="moviePosterImageView" destination="ThR-BG-F34" id="Sdq-as-ilR"/>
+                        <outlet property="movieTitleLabel" destination="pLz-9J-o85" id="8Ok-j6-eqV"/>
+                        <outlet property="rateLabel" destination="TbI-3H-agZ" id="oK6-Tt-wce"/>
+                        <outlet property="relaseDataLabel" destination="s8g-Ig-4ED" id="kqd-AE-CGK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FXR-8D-6zk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

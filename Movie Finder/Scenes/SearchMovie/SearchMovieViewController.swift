@@ -164,6 +164,5 @@ extension SearchMovieViewController : UITableViewDataSource, UITableViewDelegate
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             output?.searchedMovie = SearchHistory.history[indexPath.row]
             router?.navigateToMovieList(navigationController: navigationController)
-//            tableView.alpha = 0
         }
 }

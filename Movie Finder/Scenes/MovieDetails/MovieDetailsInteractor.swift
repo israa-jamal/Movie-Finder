@@ -9,10 +9,12 @@
 //  https://github.com/HelmMobile/clean-swift-templates
 
 protocol MovieDetailsInteractorInput {
-
+var selectedMovie: Movie? {set get}
 }
 
 protocol MovieDetailsInteractorOutput {
+    func passDataToModeling(movie: Movie)
+
 }
 
 protocol MovieDetailsDataSource {
@@ -24,10 +26,14 @@ protocol MovieDetailsDataDestination {
 }
 
 class MovieDetailsInteractor: MovieDetailsInteractorInput, MovieDetailsDataSource, MovieDetailsDataDestination {
-
+    var selectedMovie: Movie?
+    
     var output: MovieDetailsInteractorOutput?
     
     // MARK: Business logic
     
+    func loadMovieData(){
+        output?.passDataToModeling(movie: selectedMovie!)
+    }
 
 }

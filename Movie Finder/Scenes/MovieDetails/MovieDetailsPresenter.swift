@@ -9,14 +9,22 @@
 //  https://github.com/HelmMobile/clean-swift-templates
 
 protocol MovieDetailsPresenterInput {
-    
+    func passDataToModeling(movie: Movie)
+
 }
 
 protocol MovieDetailsPresenterOutput: class {
-    
+    func displayData(movie: MovieDetailsModel.ViewModel)
+
 }
 
 class MovieDetailsPresenter: MovieDetailsPresenterInput {
+    func passDataToModeling(movie: Movie) {
+        let movieDetails = MovieDetailsModel.ViewModel(movieTitle: movie.title, relaseDate: movie.release_date, MovieOverview: movie.overview, moviePoster: movie.poster_path, rate: movie.vote_average)
+            output?.displayData(movie: movieDetails)
+        }
+    
+    
     
     weak var output: MovieDetailsPresenterOutput?
     
