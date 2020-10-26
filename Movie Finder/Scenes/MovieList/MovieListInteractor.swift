@@ -56,6 +56,7 @@ class MovieListInteractor: MovieListInteractorInput, MovieListDataSource, MovieL
             }
         }
     }
+    
     func numberOfRowInSection(section: Int) -> Int{
         return results.count
         

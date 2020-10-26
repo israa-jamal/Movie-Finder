@@ -32,7 +32,7 @@ class MovieCell: UITableViewCell{
     }
     private func updateUI(title: String?, relaseDate: String?, overView: String?, poster: String?){
         self.movieTitleLabel.text = title
-        self.relaseDateLabel.text = relaseDate
+        self.relaseDateLabel.text = convertDate(relaseDate)
         self.movieDiscriptionLabel.text = overView
         guard let posterString = poster else {return}
         urlString = "https://image.tmdb.org/t/p/w92/" + posterString
@@ -66,7 +66,18 @@ class MovieCell: UITableViewCell{
         }
         .resume()
     }
-    
+    func convertDate(_ date : String?)-> String {
+        var fixedDate = ""
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        if let originalDate = date {
+            if let newDate = dateFormatter.date(from: originalDate){
+                dateFormatter.dateFormat = "yyyy"
+                fixedDate = dateFormatter.string(from: newDate)
+            }
+        }
+        return fixedDate
+    }
 }
 
 

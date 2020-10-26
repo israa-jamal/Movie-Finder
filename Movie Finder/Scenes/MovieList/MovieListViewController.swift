@@ -26,11 +26,14 @@ protocol MovieListViewControllerOutput {
 
 class MovieListViewController: UIViewController, MovieListViewControllerInput {
   
+    //Outlets
     @IBOutlet weak var tableViewMovies: UITableView!
     
+    //Proprites 
     var output: MovieListViewControllerOutput?
     var router: MovieListRouter?
     var movieResults : [MovieListModel.ViewModel] = []
+    
     // MARK: Object lifecycle
     
     override func awakeFromNib() {
@@ -49,6 +52,7 @@ class MovieListViewController: UIViewController, MovieListViewControllerInput {
         super.viewDidLoad()
     }
     
+    //MARK: Helpers
     func getData(){
         if output?.pageNumber != output?.totalPages {
         output?.fetchMoviesData()

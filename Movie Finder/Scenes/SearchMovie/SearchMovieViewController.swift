@@ -20,14 +20,14 @@ protocol SearchMovieViewControllerOutput {
 
 class SearchMovieViewController: UIViewController, SearchMovieViewControllerInput {
     
-    //Outlets
+    //MARK: Outlets
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var searchFieldView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tableViewHeight : NSLayoutConstraint!
     
    
-    //Proprites
+    //MARK: Proprites
     var output: SearchMovieViewControllerOutput?
     var router: SearchMovieRouter?
     var results : [Movie]?
@@ -56,24 +56,22 @@ class SearchMovieViewController: UIViewController, SearchMovieViewControllerInpu
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        
     }
     
+    //MARK: Helpers
     func loadHistory(){
             SearchHistory.history = self.searchHistory.defaults.array(forKey: "history") as! [String]
         tableView.alpha = 0
         tableViewHeight.constant = CGFloat(searchHistory.getHistoryElementsCount() * 50)
         tableView.reloadData()
     }
+    
     private func configureUI(){
         self.searchTextField.delegate = self
         searchFieldView.layer.cornerRadius = 20
         searchTextField.attributedPlaceholder = NSAttributedString(string: "Search a movie..", attributes: [NSAttributedString.Key.foregroundColor : UIColor(white:1, alpha: 0.9)])
         searchTextField.keyboardAppearance = .dark
     }
-    
-    // MARK: Requests
-    
     
     // MARK: Display logic
     @IBAction func searchButton(_ sender: UIButton) {
@@ -90,6 +88,7 @@ extension SearchMovieViewController: SearchMoviePresenterOutput {
         router?.passDataToNextScene(for: segue)
     }
 }
+
 //MARK:- TextField
 
 extension SearchMovieViewController : UITextFieldDelegate {
@@ -144,9 +143,8 @@ extension SearchMovieViewController : UITextFieldDelegate {
         }
     
        }
-    
-    
 }
+
 
 //MARK:- SearchHistoryTableView
 

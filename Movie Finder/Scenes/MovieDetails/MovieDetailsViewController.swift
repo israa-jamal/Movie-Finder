@@ -17,7 +17,7 @@ protocol MovieDetailsViewControllerInput {
 protocol MovieDetailsViewControllerOutput {
     var selectedMovie: Movie? {set get}
     func loadMovieData()
-
+    
 }
 
 class MovieDetailsViewController: UIViewController, MovieDetailsViewControllerInput {
@@ -48,20 +48,32 @@ class MovieDetailsViewController: UIViewController, MovieDetailsViewControllerIn
         output?.loadMovieData()
     }
     
-    // MARK: Requests
-    
-    
     // MARK: Display logic
     
     func displayData(movie: MovieDetailsModel.ViewModel) {
         movieTitleLabel.text = movie.movieTitle
-        relaseDataLabel.text = movie.relaseDate
+        relaseDataLabel.text = convertDate(movie.relaseDate)
         movieDiscriptionLabel.text = movie.MovieOverview
-        rateLabel.text = (String(describing: movie.rate)) + "/10"
-        let urlString = "https://image.tmdb.org/t/p/w780/" + movie.moviePoster!
+        rateLabel.text = "⭐️ \(movie.rate!)"
+        let urlString = "https://image.tmdb.org/t/p/w500/" + movie.moviePoster!
         let url = URL(string: urlString)
         let data = try? Data(contentsOf: url!)
         moviePosterImageView.image = UIImage(data: data!)
+    }
+    
+    //Helpers
+
+    func convertDate(_ date : String?)-> String {
+        var fixedDate = ""
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        if let originalDate = date {
+            if let newDate = dateFormatter.date(from: originalDate){
+                dateFormatter.dateFormat = "yyyy"
+                fixedDate = dateFormatter.string(from: newDate)
+            }
+        }
+        return fixedDate
     }
 }
 
