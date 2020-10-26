@@ -12,9 +12,25 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
+//    @IBOutlet weak var titleLabel : UILabel!
+//    @IBOutlet weak var imageView : UIImageView!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+//        let title = "MOVIE FINDER"
+//        imageView.alpha = 0
+//               var counter = 0.0
+//               for char in title {
+//                   Timer.scheduledTimer(withTimeInterval: 0.1 * counter, repeats: false) { (Timer) in
+//
+//                       self.titleLabel?.text?.append(char)
+//                   }
+//                counter += 1
+//               }
+//
+//        UIView.animate(withDuration: 1, animations: {
+//                   self.imageView.alpha = 1
+//               })
         return true
     }
 

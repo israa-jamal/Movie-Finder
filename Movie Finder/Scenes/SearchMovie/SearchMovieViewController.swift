@@ -66,10 +66,10 @@ class SearchMovieViewController: UIViewController, SearchMovieViewControllerInpu
         tableView.reloadData()
     }
     private func configureUI(){
-        searchFieldView.layer.cornerRadius = 20
-        searchTextField.attributedPlaceholder = NSAttributedString(string: "Search a movie..", attributes: [NSAttributedString.Key.foregroundColor : UIColor(white:1, alpha: 0.75)])
         self.searchTextField.delegate = self
-        
+        searchFieldView.layer.cornerRadius = 20
+        searchTextField.attributedPlaceholder = NSAttributedString(string: "Search a movie..", attributes: [NSAttributedString.Key.foregroundColor : UIColor(white:1, alpha: 0.9)])
+        searchTextField.keyboardAppearance = .dark
     }
     
     // MARK: Requests
