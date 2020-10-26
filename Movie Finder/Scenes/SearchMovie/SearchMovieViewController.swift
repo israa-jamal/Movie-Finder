@@ -60,7 +60,7 @@ class SearchMovieViewController: UIViewController, SearchMovieViewControllerInpu
     
     //MARK: Helpers
     func loadHistory(){
-            SearchHistory.history = self.searchHistory.defaults.array(forKey: "history") as! [String]
+        SearchHistory.history = self.searchHistory.defaults.array(forKey: "history") as? [String] ?? []
         tableView.alpha = 0
         tableViewHeight.constant = CGFloat(searchHistory.getHistoryElementsCount() * 50)
         tableView.reloadData()
